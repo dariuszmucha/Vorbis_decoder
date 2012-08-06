@@ -41,6 +41,7 @@ function pageStruc = get_pages_from_ogg(source)
       packet(packetCount,elementCount) = source(i);
       pageStruc(pageCount).packet = packet;
       packetCount = packetCount + 1;
+      i = i + 1;
       if(packetCount < totalSegmentCount)
         currentSegmentCount = pageStruc(pageCount).segment_table(packetCount);
       else

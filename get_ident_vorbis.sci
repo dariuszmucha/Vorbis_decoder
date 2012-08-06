@@ -1,4 +1,4 @@
-function identStruc = get_ident_vorbis(pageStruc)
+function [identStruc, new_position] = get_ident_vorbis(pageStruc, current_position)
   //ogg pages loaded, check if it's vorbis
   exec('convertMSBtoLSB.sci', -1);
   ident_tab = [ascii('v'),ascii('o'),ascii('r'),ascii('b'),ascii('i'),ascii('s')];
@@ -7,7 +7,7 @@ function identStruc = get_ident_vorbis(pageStruc)
   if ~(pageStruc(1).header_type_flag & 2) then
     printf("Error, not the first frame ! \n");
     identStruc = -1;
-  else if (pageStruc(1).page_segments ~= 1) then
+  elseif (pageStruc(1).page_segments ~= 1) then
     printf("Error, more packets than 1 in the first frame \n");
     identStruc = -1;
   else
@@ -46,5 +46,7 @@ function identStruc = get_ident_vorbis(pageStruc)
         printf("FATAL ERROR, framing flag is incorrect \n");
     end
   end
-    
-end
+    new_position.page = 1;
+    new_position.packet = 1;
+    new_position.element = 1;
+endfunction
