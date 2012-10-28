@@ -18,7 +18,7 @@ if(~exists('source'))
     source(i) = mget(1,'uc',FILE);
     i = i + 1;      
   end;
-  err = mclose(FILE);cu
+  err = mclose(FILE);
   printf('load completed %d %d\n', size(source));
 end;
 
