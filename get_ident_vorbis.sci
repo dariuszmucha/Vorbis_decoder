@@ -1,26 +1,21 @@
-function [identStruc, new_position] = get_ident_vorbis(pageStruc, current_position)
-  //ogg pages loaded, check if it's vorbis
-  exec('convertMSBtoLSB.sci', -1);
-  ident_tab = [ascii('v'),ascii('o'),ascii('r'),ascii('b'),ascii('i'),ascii('s')];
-  
-  //first page should include stream information
-  if ~(pageStruc(1).header_type_flag & 2) then
-    printf("Error, not the first frame ! \n");
-    identStruc = -1;
-  elseif (pageStruc(1).page_segments ~= 1) then
-    printf("Error, more packets than 1 in the first frame \n");
-    identStruc = -1;
-  else
-    //first byte - packet type
-    //six bytes - vorbis
-    //useful data - 8bytes+
-    //identStruc.vorbis_ver = sum(pageStruc(1).packet(8:11));
-    //identStruc.audio_channels = pageStruc(1).packet(12);
-    //identStruc.audio_sample_rate = sum(pageStruc(1).packet(13:16));
-    //identStruc.bitrate_maximum = sum(pageStruc(1).packet(17:20));
-    //identStruc.bitrate_nominal = sum(pageStruc(1).packet(21:24));
-    //identStruc.bitrate_minimal = sum(pageStruc(1).packet(25:28));
-    //identStruc.blocksize = pageStruc(1).packet(29);
+function [identStruc, new_position] = get_ident_vorbis(pageStruc, current_position) 
+    // First page should include stream information 
+    // If header type flag bit 2 is not set it is not first page
+    if ~(pageStruc(1).header_type_flag & 2) then
+        printf("Error, not the first frame ! \n");
+        identStruc = -1;
+    elseif (pageStruc(1).page_segments ~= 1) then
+        printf("Error, more packets than 1 in the first frame \n");
+        identStruc = -1;
+    else
+    // first byte - packet type - must be equal to 1
+    if pageStruc(1).packet(1) ~= 1 then
+        printf("Error, identification header - incorrect packet type \n");
+    end
+    // byte 2:7 must be 'vorbis'
+    if ~isequal(pageStruc(1).packet(2:7), ascii('vorbis')) then
+        printf("Error, identification header - incorrect format \n");
+    end
     
     identStruc.vorbis_ver = convertMSBtoLSB(pageStruc(1).packet(8:11), 4);
     if(identStruc.vorbis_ver ~= 0)
