@@ -38,9 +38,9 @@ ident_header = get_ident_vorbis();
 printf('Get comment struc \n');
 comment_header = get_comment_vorbis();
 printf('=============================================================================\n');
-printf('### Track info : \n');
+printf('### Track info : ');
 comment_size = size(comment_header.comment);
-for i = 1:comment_size(1)
+for i = 1:size(1)
     comment = comment_header.comment(i);
     printf('%s \n', comment);
 end
@@ -51,8 +51,8 @@ printf('Bitrate Maximum : %d \n', ident_header.bitrate_maximum);
 printf('Bitrate Nominal : %d \n', ident_header.bitrate_nominal);
 printf('Bitrate Minimal : %d \n', ident_header.bitrate_minimal);
 printf('=============================================================================\n');
-printf('Get setup struc \n');
-setup_header = get_setup_vorbis();
+//printf('Get setup struc \n');
+//[setup_header, current_position] = get_setup_vorbis(pageStruc, current_position);
 
 
 

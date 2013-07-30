@@ -14,7 +14,8 @@ function identStruc = get_ident_vorbis()
         printf("Error, identification header - incorrect packet type \n");
     end
     // byte 2:7 must be 'vorbis'
-    if ~isequal(oggPagesGetNextByte(6), ascii('vorbis')') then
+
+    if ~isequal(oggPagesGetNextByte(6), ascii('vorbis')) then
         printf("Error, identification header - incorrect format \n");
     end
     

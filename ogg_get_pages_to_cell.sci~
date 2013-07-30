@@ -1,4 +1,4 @@
-function pageData = ogg_get_pages_to_cell(source)
+function pageStruc = ogg_get_pages_to_cell(source)
   
     s = length(source);
     // Predefine structure
@@ -69,13 +69,5 @@ function pageData = ogg_get_pages_to_cell(source)
             i = i + packet_length;
         end
     end 
-    // Pages extracted, initialize position structure - current element to zero, rest to one
-    positionStruc.current_page = 1;
-    positionStruc.current_packet = 1;
-    positionStruc.current_element = 0;
-    
-    // Create page data structure
-    pageData = cell(1,2);
-    pageData(1).entries = pageStruc;
-    pageData(2).entries = positionStruc;
+    // Pages extracted, initialize position struc
 endfunction
